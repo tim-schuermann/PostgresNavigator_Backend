@@ -4,6 +4,7 @@ from fastapi import Depends
 from app.auth import get_current_active_user
 from app.dependencies import require_role
 from app.schemas import User
+from app.crud import fetch_all
 
 router = APIRouter(
     prefix="/users",
@@ -14,7 +15,8 @@ router = APIRouter(
 
 @router.get("/users/", tags=["users"])
 async def read_users():
-    return [{"username": "Rick"}, {"username": "Morty"}]
+    users = fetch_all('users', 'username')
+    return users
 
 @router.get("/users/me", tags=["users"])
 async def read_users_me(
