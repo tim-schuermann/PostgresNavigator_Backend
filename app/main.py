@@ -1,14 +1,12 @@
-from fastapi import Depends, FastAPI
-
-from .dependencies import require_role
+from fastapi import FastAPI
 from .internal import admin
-from .routers import items, users, auth
+from .routers import api, items, users, auth
 
-# app = FastAPI(dependencies=[Depends(get_query_token)])
 app = FastAPI()
 
-app.include_router(users.router)
+app.include_router(api.router)
 app.include_router(items.router)
+app.include_router(users.router)
 app.include_router(auth.router)
 app.include_router(admin.router)
 

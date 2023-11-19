@@ -13,17 +13,17 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/users/", tags=["users"])
+@router.get("/", tags=["users"])
 async def read_users():
     users = fetch_all('users', 'username')
     return users
 
-@router.get("/users/me", tags=["users"])
+@router.get("/me", tags=["users"])
 async def read_users_me(
     current_user: Annotated[User, Depends(get_current_active_user)]
 ):
     return current_user
 
-@router.get("/users/{username}", tags=["users"])
+@router.get("/{username}", tags=["users"])
 async def read_user(username: str):
     return {"username": username}

@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status, Header
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from . import crud
+from app import crud
 from app.schemas import TokenData
 import os
 from dotenv import load_dotenv
