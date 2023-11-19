@@ -42,7 +42,7 @@ def create_users_table():
         email VARCHAR(255) UNIQUE NOT NULL,
         full_name VARCHAR(255) NOT NULL,
         disabled BOOLEAN NOT NULL,
-        hashed_password VARCHAR(255) NOT NULL
+        hashed_password TEXT NOT NULL
     );
     """
     with db.get_db_cursor(commit=True) as cursor:
@@ -50,10 +50,11 @@ def create_users_table():
 
 def create_user(username: str, password: str, role: str, email: str, full_name: str, disabled: bool = False):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    hashed_password_str = hashed_password.decode('utf-8')
     with db.get_db_cursor(commit=True) as cursor:
         cursor.execute(
             "INSERT INTO users (username, role, email, full_name, disabled, hashed_password) VALUES (%s, %s, %s, %s, %s, %s) RETURNING id;",
-            (username, role, email, full_name, disabled, hashed_password)
+            (username, role, email, full_name, disabled, hashed_password_str)
         )
         user_id = cursor.fetchone()['id']
         return user_id
